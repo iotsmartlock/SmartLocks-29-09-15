@@ -181,7 +181,7 @@ import static com.smartlockinc.smartlocks.CommonUtilities.TAG;
                         else {
 
                             session = new SessionManager(mcontext);
-                            session.atlogin("loggedin");
+                            session.atlogin("smartlockuser");
                             loginDataBaseAdapter.insertEntry(Password, Emailid);
                             Intent i = new Intent(mcontext, MainActivity.class);
                             startActivity(i);
@@ -278,7 +278,7 @@ import static com.smartlockinc.smartlocks.CommonUtilities.TAG;
                     session = new SessionManager(mcontext);
                     Emailid = Plus.AccountApi.getAccountName(mGoogleApiClient);
                     loginDataBaseAdapter.insertEntry(Password, Emailid);
-                    session.atlogin("loggedin");
+                    session.atlogin("google");
                     uri.inserturi(personPhotoUrl);
                     Intent i = new Intent(mcontext, MainActivity.class);
                     startActivity(i);
@@ -350,7 +350,7 @@ import static com.smartlockinc.smartlocks.CommonUtilities.TAG;
                                         String profilePicUrl = data.getJSONObject("picture").getJSONObject("data").getString("url");
                                         uri = new photourl(mcontext);
                                         session = new SessionManager(mcontext);
-                                        session.atlogin("loggedin");
+                                        session.atlogin("facebook");
                                         loginDataBaseAdapter.insertEntry(name, email);
                                         uri.inserturi(profilePicUrl);
                                         Intent fbLogged = new Intent();

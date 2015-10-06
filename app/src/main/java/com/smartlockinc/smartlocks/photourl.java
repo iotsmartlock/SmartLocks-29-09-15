@@ -67,7 +67,7 @@ public class photourl
 
         // Insert the row into your table
         db.insert("PIC", null, newValues);
-        Toast.makeText(context, "User Info Saved", Toast.LENGTH_LONG).show();
+        //Toast.makeText(context, "User Info Saved", Toast.LENGTH_LONG).show();
 
 
     }
@@ -77,7 +77,7 @@ public class photourl
     {
         db  = dbHelper.getReadableDatabase();
         int numberOFEntriesDeleted= db.delete(photourl.TABLE_NAME,null,null) ;
-        Toast.makeText(context, "Number of key Deleted Successfully : "+numberOFEntriesDeleted, Toast.LENGTH_LONG).show();
+        //Toast.makeText(context, "Number of key Deleted Successfully : "+numberOFEntriesDeleted, Toast.LENGTH_LONG).show();
         return numberOFEntriesDeleted;
 
     }

@@ -2,6 +2,7 @@ package com.smartlockinc.smartlocks;
 
 import android.content.Context;
 import android.content.Intent;
+import android.graphics.Color;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.design.widget.TabLayout;
@@ -18,6 +19,8 @@ import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.alexzh.circleimageview.CircleImageView;
+import com.alexzh.circleimageview.ItemSelectedListener;
 import com.android.volley.Request;
 import com.android.volley.RequestQueue;
 import com.android.volley.Response;
@@ -36,7 +39,7 @@ import static com.smartlockinc.smartlocks.CommonUtilities.SENDER_ID;
 
 
 public class MainActivity extends ActionBarActivity
-        implements NavigationDrawerCallbacks {
+        implements NavigationDrawerCallbacks, ItemSelectedListener {
 
     AsyncTask<Void, Void, Void> mRegisterTask;
     AlertDialogueManager alert = new AlertDialogueManager();
@@ -51,7 +54,7 @@ public class MainActivity extends ActionBarActivity
     photourl uri;
     TextView usrname;
     TextView name;
-    ImageView img;
+    CircleImageView img;
     TabLayout mtablayout;
     ViewPager pager;
 
@@ -61,7 +64,7 @@ public class MainActivity extends ActionBarActivity
         setContentView(R.layout.activity_main);
         mToolbar = (Toolbar) findViewById(R.id.toolbar_actionbar);
         setSupportActionBar(mToolbar);
-        img = (ImageView) findViewById(R.id.imgAvatar);
+        img = (CircleImageView) findViewById(R.id.imgAvatar);
         usrname = (TextView) findViewById(R.id.txtUserEmail);
         name = (TextView) findViewById(R.id.txtUsername);
         mNavigationDrawerFragment = (NavigationDrawerFragment)
@@ -73,9 +76,10 @@ public class MainActivity extends ActionBarActivity
         mtablayout.setTabsFromPagerAdapter(madapter);
         mtablayout.setupWithViewPager(pager);
         pager.addOnPageChangeListener(new TabLayout.TabLayoutOnPageChangeListener(mtablayout));
+        img.setOnItemSelectedClickListener(this);
 
 
-    // Set up the drawer.
+        // Set up the drawer.
         mNavigationDrawerFragment.setup(R.id.fragment_drawer, (DrawerLayout) findViewById(R.id.drawer), mToolbar);
         // populate the navigation drawer
         gcm = GoogleCloudMessaging.getInstance(this);
@@ -96,7 +100,7 @@ public class MainActivity extends ActionBarActivity
             } else {
                 new RegisterBackground().execute();
                 gcmsessionmanager = new Gcmsessionmanager(MainActivity.this);
-                Toast.makeText(MainActivity.this, gcmsessionmanager.getkey(), Toast.LENGTH_LONG).show();
+                //Toast.makeText(MainActivity.this, gcmsessionmanager.getkey(), Toast.LENGTH_LONG).show();
 
             }
 
@@ -115,10 +119,19 @@ public class MainActivity extends ActionBarActivity
                     .into(img);
             name.setText(username);
             usrname.setText(password);
+            img.setBackgroundColor(Color.TRANSPARENT);
+
 
         }
     }
-
+    @Override
+    public void onUnselected(View view) {
+        //
+    }
+    @Override
+    public void onSelected(View view) {
+        //
+    }
     class RegisterBackground extends AsyncTask<String, String, String>
 
     {
@@ -145,7 +158,7 @@ public class MainActivity extends ActionBarActivity
 
         @Override
         protected void onPostExecute(String msg) {
-            Toast.makeText(MainActivity.this, msg, Toast.LENGTH_LONG).show();
+            //Toast.makeText(MainActivity.this, msg, Toast.LENGTH_LONG).show();
             gcmsessionmanager = new Gcmsessionmanager(MainActivity.this);
             gcmsessionmanager.insertkey(msg);
 
@@ -195,7 +208,8 @@ public class MainActivity extends ActionBarActivity
         // update the main content by replacing fragments
         switch (position) {
             case 0:
-                getSupportFragmentManager().beginTransaction().replace(R.id.container, new HomeFragment()).commit();
+                Intent home = new Intent(MainActivity.this,home.class);
+                startActivity(home);
                 break;
 
             case 1:
@@ -205,12 +219,12 @@ public class MainActivity extends ActionBarActivity
                 getSupportFragmentManager().beginTransaction().replace(R.id.container, new SharedKeyFragment()).commit();
                 break;
             case 3:
-                getSupportFragmentManager().beginTransaction().replace(R.id.container, new Signout()).commit();
-
+                Intent logout = new Intent(MainActivity.this,logout.class);
+                startActivity(logout);
                 break;
-                /*case 4:
-                    getSupportFragmentManager().beginTransaction().replace(R.id.container, new Register()).commit();
-                    break;*/
+            case 4:
+                //getSupportFragmentManager().beginTransaction().replace(R.id.container, new Register()).commit();
+                //break;
 
         }
 

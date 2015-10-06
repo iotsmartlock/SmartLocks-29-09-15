@@ -42,11 +42,11 @@ public class PagerAdapter extends FragmentStatePagerAdapter {
     {
         switch (position) {
             case 0:
-                return "    Home    ";
+                return "       Home       ";
             case 1:
-                return "    LockLogs    ";
+                return "       LockLogs      ";
             case 2:
-                return "    SharedKey    ";
+                return "      SharedKey       ";
             default:
                 return null;
         }

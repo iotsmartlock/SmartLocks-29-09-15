@@ -67,7 +67,7 @@ public class LoginDataBaseAdapter
 
         // Insert the row into your table
         db.insert("LOGIN", null, newValues);
-        Toast.makeText(context, "User Info Saved", Toast.LENGTH_LONG).show();
+        //Toast.makeText(context, "User Info Saved", Toast.LENGTH_LONG).show();
 
 
     }
@@ -77,7 +77,7 @@ public class LoginDataBaseAdapter
     {
         db  = dbHelper.getReadableDatabase();
         int numberOFEntriesDeleted= db.delete(LoginDataBaseAdapter.TABLE_NAME,null,null) ;
-        Toast.makeText(context, "Number fo Entry Deleted Successfully : "+numberOFEntriesDeleted, Toast.LENGTH_LONG).show();
+        //Toast.makeText(context, "Number fo Entry Deleted Successfully : "+numberOFEntriesDeleted, Toast.LENGTH_LONG).show();
         return numberOFEntriesDeleted;
 
     }

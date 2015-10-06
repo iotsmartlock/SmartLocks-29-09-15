@@ -82,7 +82,7 @@ public class GCMIntentService extends IntentService{
     }
     private static void sendNotification(Context context,String message)
     {
-        int icon = R.mipmap.ic_launcher;
+        int icon = R.mipmap.icon;
         long when = System.currentTimeMillis();
         NotificationManager  notificationManager = (NotificationManager) context.getSystemService(Context.NOTIFICATION_SERVICE);
         String title = context.getString(R.string.app_name);

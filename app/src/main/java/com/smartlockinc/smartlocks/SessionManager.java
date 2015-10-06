@@ -27,7 +27,10 @@ public class SessionManager {
         editor.putString(Flag, flag);
         editor.commit();
     }
-
+    public String getstring()
+    {
+        return pref.getString(Flag,null);
+    }
 
 
 

@@ -7,6 +7,7 @@ import android.content.res.Configuration;
 import android.graphics.Bitmap;
 import android.graphics.BitmapShader;
 import android.graphics.Canvas;
+import android.graphics.Color;
 import android.graphics.ColorFilter;
 import android.graphics.Paint;
 import android.graphics.PixelFormat;
@@ -27,6 +28,9 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.alexzh.circleimageview.CircleImageView;
+import com.alexzh.circleimageview.ItemSelectedListener;
+
 import java.util.ArrayList;
 import java.util.List;
 
@@ -35,7 +39,7 @@ import java.util.List;
  * See the <a href="https://developer.android.com/design/patterns/navigation-drawer.html#Interaction">
  * design guidelines</a> for a complete explanation of the behaviors implemented here.
  */
-public class NavigationDrawerFragment extends Fragment implements NavigationDrawerCallbacks {
+public class NavigationDrawerFragment extends Fragment implements NavigationDrawerCallbacks , ItemSelectedListener {
 
     /**
      * Remember the position of the selected item.
@@ -228,10 +232,21 @@ public class NavigationDrawerFragment extends Fragment implements NavigationDraw
     }
 
     public void setUserData(String user, String email, Bitmap avatar) {
-        ImageView avatarContainer = (ImageView) mFragmentContainerView.findViewById(R.id.imgAvatar);
+        CircleImageView avatarContainer = (CircleImageView) mFragmentContainerView.findViewById(R.id.imgAvatar);
         ((TextView) mFragmentContainerView.findViewById(R.id.txtUserEmail)).setText(email);
         ((TextView) mFragmentContainerView.findViewById(R.id.txtUsername)).setText(user);
+        avatarContainer.setOnItemSelectedClickListener(this);
+        avatarContainer.setBackgroundColor(Color.TRANSPARENT);
+
         avatarContainer.setImageDrawable(new RoundImage(avatar));
+    }
+    @Override
+    public void onUnselected(View view) {
+        //
+    }
+    @Override
+    public void onSelected(View view) {
+        //
     }
 
     public View getGoogleDrawer() {

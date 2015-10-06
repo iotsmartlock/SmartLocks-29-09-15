@@ -66,7 +66,7 @@ public class Gcmsessionmanager
 
         // Insert the row into your table
         db.insert("GCM", null, newValues);
-        Toast.makeText(context, "User Info Saved", Toast.LENGTH_LONG).show();
+        //Toast.makeText(context, "User Info Saved", Toast.LENGTH_LONG).show();
 
 
     }
@@ -76,7 +76,7 @@ public class Gcmsessionmanager
     {
         db  = dbHelper.getReadableDatabase();
         int numberOFEntriesDeleted= db.delete(Gcmsessionmanager.TABLE_NAME,null,null) ;
-        Toast.makeText(context, "Number of key Deleted Successfully : "+numberOFEntriesDeleted, Toast.LENGTH_LONG).show();
+        //Toast.makeText(context, "Number of key Deleted Successfully : "+numberOFEntriesDeleted, Toast.LENGTH_LONG).show();
         return numberOFEntriesDeleted;
 
     }

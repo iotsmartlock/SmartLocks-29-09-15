@@ -101,7 +101,7 @@ public class Signout extends Fragment implements  View.OnClickListener, GoogleAp
                 loginDataBaseAdapter.deleteEntry();
                 gcmsessionmanager.deletekey();
                 uri.deleteuri();
-                Toast.makeText(mContext,"Logged out!",Toast.LENGTH_SHORT).show();
+                //Toast.makeText(mContext,"Logged out!",Toast.LENGTH_SHORT).show();
                 Intent i = new Intent(mContext,Signupstartup.class);
                 startActivity(i);
                 getActivity().finish();
@@ -115,7 +115,7 @@ public class Signout extends Fragment implements  View.OnClickListener, GoogleAp
                 uri.deleteuri();
                 gcmsessionmanager.deletekey();
                 loginDataBaseAdapter.deleteEntry();
-                Toast.makeText(mContext, "logged out!", Toast.LENGTH_LONG).show();
+                //Toast.makeText(mContext, "logged out!", Toast.LENGTH_LONG).show();
                 Intent p = new Intent(mContext,Signupstartup.class);
                 startActivity(p);
                 getActivity().finish();
