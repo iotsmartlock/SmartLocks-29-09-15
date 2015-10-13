@@ -13,7 +13,7 @@ import android.widget.Toast;
 
 public class photourl
 {
-    static final String DATABASE_NAME = "gcmkey.db";
+    static final String DATABASE_NAME = "pic.db";
 
     static final int DATABASE_VERSION = 1;
 
