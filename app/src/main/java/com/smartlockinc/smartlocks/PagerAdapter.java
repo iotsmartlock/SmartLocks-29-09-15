@@ -44,9 +44,9 @@ public class PagerAdapter extends FragmentStatePagerAdapter {
             case 0:
                 return "       Home       ";
             case 1:
-                return "       LockLogs      ";
+                return "     LockStatus    ";
             case 2:
-                return "      SharedKey       ";
+                return "   Family & Friends  ";
             default:
                 return null;
         }

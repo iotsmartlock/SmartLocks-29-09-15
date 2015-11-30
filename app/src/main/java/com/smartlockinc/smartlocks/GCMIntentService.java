@@ -19,6 +19,9 @@ import com.google.android.gms.gcm.GoogleCloudMessaging;
 
 import org.json.JSONObject;
 
+import java.text.SimpleDateFormat;
+import java.util.Calendar;
+
 public class GCMIntentService extends IntentService{
     Context context;
     public static final int NOTIFICATION_ID = 1;
@@ -26,6 +29,7 @@ public class GCMIntentService extends IntentService{
     NotificationCompat.Builder builder;
     public static final String TAG = "GCM Demo";
     String name;
+    Notificationmessagehandler dbhelper;
     JSONObject json;
 
     public GCMIntentService() {
@@ -39,6 +43,11 @@ public class GCMIntentService extends IntentService{
         Bundle extras = intent.getExtras();
         String msg = intent.getStringExtra("message");
         Log.i(TAG,""+ msg);
+        Calendar cal = Calendar.getInstance();
+        SimpleDateFormat df = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+        String date = df.format(cal.getTime());
+        dbhelper = new Notificationmessagehandler(this);
+        dbhelper.insertmsg(msg,date,"Current Status","Time");
        /* try {
             json = new JSONObject(msg);
             name = json.getString("name");

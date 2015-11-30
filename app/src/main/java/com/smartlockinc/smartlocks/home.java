@@ -1,55 +1,50 @@
 package com.smartlockinc.smartlocks;
 
-import android.content.Context;
-import android.content.Intent;
-import android.graphics.Color;
-import android.os.AsyncTask;
-import android.os.Bundle;
-import android.support.design.widget.FloatingActionButton;
-import android.support.design.widget.TabLayout;
-import android.support.v4.view.ViewPager;
-import android.support.v4.widget.DrawerLayout;
-import android.support.v7.app.ActionBarActivity;
-import android.support.v7.widget.CardView;
-import android.support.v7.widget.Toolbar;
-import android.util.Log;
-import android.view.Menu;
-import android.view.MenuItem;
-import android.view.View;
-import android.widget.Button;
-import android.widget.FrameLayout;
-import android.widget.ImageView;
-import android.widget.RelativeLayout;
-import android.widget.TextView;
-import android.widget.Toast;
+        import android.content.Context;
+        import android.content.Intent;
+        import android.graphics.Color;
+        import android.os.AsyncTask;
+        import android.os.Bundle;
+        import android.support.design.widget.TabLayout;
+        import android.support.v4.view.ViewPager;
+        import android.support.v4.widget.DrawerLayout;
+        import android.support.v7.app.ActionBarActivity;
+        import android.support.v7.widget.Toolbar;
+        import android.util.Log;
+        import android.view.Menu;
+        import android.view.MenuItem;
+        import android.view.View;
+        import android.widget.FrameLayout;
+        import android.widget.ImageView;
+        import android.widget.TextView;
+        import android.widget.Toast;
 
-import com.alexzh.circleimageview.CircleImageView;
-import com.alexzh.circleimageview.ItemSelectedListener;
-import com.android.volley.Request;
-import com.android.volley.RequestQueue;
-import com.android.volley.Response;
-import com.android.volley.VolleyError;
-import com.android.volley.toolbox.JsonObjectRequest;
-import com.android.volley.toolbox.Volley;
-import com.google.android.gms.gcm.GoogleCloudMessaging;
-import com.squareup.picasso.Picasso;
+        import com.alexzh.circleimageview.CircleImageView;
+        import com.alexzh.circleimageview.ItemSelectedListener;
+        import com.android.volley.Request;
+        import com.android.volley.RequestQueue;
+        import com.android.volley.Response;
+        import com.android.volley.VolleyError;
+        import com.android.volley.toolbox.JsonObjectRequest;
+        import com.android.volley.toolbox.Volley;
+        import com.google.android.gms.gcm.GoogleCloudMessaging;
+        import com.squareup.picasso.Picasso;
 
-import org.json.JSONException;
-import org.json.JSONObject;
+        import org.json.JSONException;
+        import org.json.JSONObject;
 
-import java.io.IOException;
+        import java.io.IOException;
 
-import static com.smartlockinc.smartlocks.CommonUtilities.SENDER_ID;
+        import static com.smartlockinc.smartlocks.CommonUtilities.SENDER_ID;
 
 
-public class MainActivity extends ActionBarActivity
+public class home extends ActionBarActivity
         implements NavigationDrawerCallbacks, ItemSelectedListener {
 
     AsyncTask<Void, Void, Void> mRegisterTask;
     AlertDialogueManager alert = new AlertDialogueManager();
     ConnectionDetector cd;
     SessionManager session;
-    Gcmsessionmanager gcmsessionmanager;
     private NavigationDrawerFragment mNavigationDrawerFragment;
     private Toolbar mToolbar;
     private PagerAdapter madapter;
@@ -68,7 +63,6 @@ public class MainActivity extends ActionBarActivity
         setContentView(R.layout.activity_main);
         mToolbar = (Toolbar) findViewById(R.id.toolbar_actionbar);
         setSupportActionBar(mToolbar);
-        mToolbar.setTitle("Smartlock Inc");
         img = (CircleImageView) findViewById(R.id.imgAvatar);
         usrname = (TextView) findViewById(R.id.txtUserEmail);
         name = (TextView) findViewById(R.id.txtUsername);
@@ -83,50 +77,26 @@ public class MainActivity extends ActionBarActivity
         pager.addOnPageChangeListener(new TabLayout.TabLayoutOnPageChangeListener(mtablayout));
         img.setOnItemSelectedClickListener(this);
 
+
+
         // Set up the drawer.
         mNavigationDrawerFragment.setup(R.id.fragment_drawer, (DrawerLayout) findViewById(R.id.drawer), mToolbar);
         // populate the navigation drawer
-        gcm = GoogleCloudMessaging.getInstance(this);
 
-        cd = new ConnectionDetector(getApplicationContext());
-        if (!cd.isConnectingtoInternet()) {
-            alert.ShowALert(MainActivity.this, "No Internet Conection", "Connect and login again", false);
-
-        } else {
-            session = new SessionManager(MainActivity.this);
-            if (session.checklogin() == false) {
-                Intent intent = new Intent(MainActivity.this, Signupstartup.class);
-                startActivity(intent);
-                finish();
-                new RegisterBackground().execute();
-
-
-            } else {
-                new RegisterBackground().execute();
-                gcmsessionmanager = new Gcmsessionmanager(MainActivity.this);
-                //Toast.makeText(MainActivity.this, gcmsessionmanager.getkey(), Toast.LENGTH_LONG).show();
-
-            }
-
-        }
-        session = new SessionManager(MainActivity.this);
-        if (session.checklogin() == false) {
-            name.setText("");
-
-        } else {
-            loginDataBaseAdapter = new LoginDataBaseAdapter(MainActivity.this);
+            loginDataBaseAdapter = new LoginDataBaseAdapter(home.this);
             String username = loginDataBaseAdapter.getusername();
             String password = loginDataBaseAdapter.getpassword();
-            uri = new photourl(MainActivity.this);
+            uri = new photourl(home.this);
             Picasso.with(this)
                     .load(uri.geturi())
                     .into(img);
             name.setText(username);
             usrname.setText(password);
-            img.setBackgroundColor(Color.TRANSPARENT);
+        img.setBackgroundColor(Color.TRANSPARENT);
 
 
-        }
+
+
     }
     @Override
     public void onUnselected(View view) {
@@ -136,47 +106,10 @@ public class MainActivity extends ActionBarActivity
     public void onSelected(View view) {
         //
     }
-    class RegisterBackground extends AsyncTask<String, String, String>
-
-    {
-
-        @Override
-        protected String doInBackground(String... arg0) {
-            // TODO Auto-generated method stub
-            String msg = "";
-            try {
-                if (gcm == null) {
-                    gcm = GoogleCloudMessaging.getInstance(MainActivity.this);
-                }
-
-                String regid = gcm.register(SENDER_ID);
-                msg = regid;
-                Log.d("111", msg);
 
 
-            } catch (IOException ex) {
-                msg = "Error :" + ex.getMessage();
-            }
-            return msg;
-        }
-
-        @Override
-        protected void onPostExecute(String msg) {
-            //Toast.makeText(MainActivity.this, msg, Toast.LENGTH_LONG).show();
-            gcmsessionmanager = new Gcmsessionmanager(MainActivity.this);
-            gcmsessionmanager.insertkey(msg);
-
-        }
-    }
 
 
-    @Override
-    protected void onDestroy() {
-        if (mRegisterTask != null) {
-            mRegisterTask.cancel(true);
-        }
-        super.onDestroy();
-    }
 
 
     @Override
@@ -212,8 +145,8 @@ public class MainActivity extends ActionBarActivity
         // update the main content by replacing fragments
         switch (position) {
             case 0:
-                Intent home = new Intent(MainActivity.this,home.class);
-                startActivity(home);
+                getSupportFragmentManager().beginTransaction().replace(R.id.container, new HomeFragment()).commit();
+
                 break;
 
             case 1:
@@ -223,12 +156,12 @@ public class MainActivity extends ActionBarActivity
                 getSupportFragmentManager().beginTransaction().replace(R.id.container, new SharedKeyFragment()).commit();
                 break;
             case 3:
-                Intent logout = new Intent(MainActivity.this,logout.class);
+                Intent logout = new Intent(home.this,logout.class);
                 startActivity(logout);
                 break;
             case 4:
-                //getSupportFragmentManager().beginTransaction().replace(R.id.container, new Register()).commit();
-                //break;
+                getSupportFragmentManager().beginTransaction().replace(R.id.container, new Register()).commit();
+                break;
 
         }
 
@@ -244,27 +177,26 @@ public class MainActivity extends ActionBarActivity
 
 
     public void unlockbuttonOnClick(View v1) {
-        session = new SessionManager(MainActivity.this);
+        session = new SessionManager(home.this);
         if (session.checklogin() == true) {
             String keyword = "unlock";
             postmethod(this, keyword);
         } else {
-            alert.ShowALert(MainActivity.this, "Can not unlock", "Login with a valid account", false);
+            alert.ShowALert(home.this, "Can not unlock", "Login with a valid account", false);
         }
 
     }
 
     public void lockbuttonOnClick(View v1) {
-        session = new SessionManager(MainActivity.this);
+        session = new SessionManager(home.this);
         if (session.checklogin() == true) {
             String keyword = "Lock";
             postmethod(this, keyword);
         } else {
-            alert.ShowALert(MainActivity.this, "Can not lock", "Login with a valid account", false);
+            alert.ShowALert(home.this, "Can not lock", "Login with a valid account", false);
         }
 
     }
-
 
     public void postmethod(final Context context, final String keyword) {
 

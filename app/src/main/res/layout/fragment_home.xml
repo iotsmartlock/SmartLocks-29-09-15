@@ -25,7 +25,8 @@
             android:layout_weight="1"
             android:clickable="true"
             android:onClick="lockbuttonOnClick"
-            app:rd_enable="true"/>
+            app:rd_enable="true"
+            android:elevation="10dp" />
 
 
         <com.rey.material.widget.Button
@@ -37,7 +38,6 @@
             android:background="@drawable/mybuttonbg2"
             app:rd_rippleAnimDuration="450"
             android:textColor="#FFFFFF"
-
             android:text="UNLOCK"
             android:textSize="15dp"
             android:layout_weight="2"
@@ -46,8 +46,7 @@
             app:rd_enable="true"
 
 
-
-            />
+            android:elevation="10dp" />
 
     </LinearLayout>
 </RelativeLayout>

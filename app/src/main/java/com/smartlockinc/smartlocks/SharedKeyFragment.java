@@ -7,6 +7,8 @@ package com.smartlockinc.smartlocks;
 import android.app.Activity;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.provider.SyncStateContract;
@@ -24,16 +26,19 @@ import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
 import android.widget.ArrayAdapter;
 import android.widget.EditText;
+import android.widget.ImageView;
 import android.widget.ListAdapter;
 import android.widget.ListView;
 import android.widget.RelativeLayout;
+
+import java.io.ByteArrayOutputStream;
 
 
 public class SharedKeyFragment extends Fragment {
 
     Memberhandler dbhelper;
-    Neighbourhandler dbneighbour;
-    SimpleCursorAdapter dataAdapter,dataAdapter2;
+
+    SimpleCursorAdapter dataAdapter;
 
     public SharedKeyFragment() {
         // Required empty public constructor
@@ -60,19 +65,13 @@ public class SharedKeyFragment extends Fragment {
         final Animation pullup = AnimationUtils.loadAnimation(getContext(), R.anim.pullup);
         final FloatingActionButton fab = (FloatingActionButton) rootView.findViewById(R.id.fab);
         dbhelper = new Memberhandler(getContext());
-        dbneighbour = new Neighbourhandler(getContext());
         Cursor cursor = dbhelper.getmembername();
-        String[] columns = new String[] {dbhelper.colName,dbhelper.colKey};
-        int[] to = new int[]{R.id.Name,R.id.Key};
-        dataAdapter =new SimpleCursorAdapter(getContext(),R.layout.listview,cursor,columns,to,0);
-        ListView listview = (ListView) rootView.findViewById(R.id.listView);
-        listview.setAdapter(dataAdapter);
+            String[] columns = new String[] {dbhelper.colTextup,dbhelper.colName,dbhelper.colTextdown,dbhelper.colKey};
+            int[] to = new int[]{R.id.textViewup,R.id.Name,R.id.textdown,R.id.Key};
+            dataAdapter =new SimpleCursorAdapter(getContext(),R.layout.listview,cursor,columns,to,0);
+            final ListView listview = (ListView) rootView.findViewById(R.id.listView);
+            listview.setAdapter(dataAdapter);
 
-        /*Cursor cursorneighbour = dbneighbour.getneighbourname();
-        String[] column = new String[] {dbneighbour.colName,dbneighbour.colPhone};
-        int[] too = new int[]{R.id.Neighbour,R.id.PhoneNO};
-        dataAdapter2 =new SimpleCursorAdapter(getContext(),R.layout.listview,cursorneighbour,column,too,0);
-        listview.setAdapter(dataAdapter2);*/
 
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -135,14 +134,31 @@ public class SharedKeyFragment extends Fragment {
                     snackbar.show();
 
             }
+                else if(MemberName.equals("") || Raspkey.equals("")){
+                    final Snackbar snackbar = Snackbar.make(rootView, "One or More Fields are Empty", Snackbar.LENGTH_SHORT);
+                    snackbar.setAction("Dismiss", new View.OnClickListener() {
+                        @Override
+                        public void onClick(View v) {
+                            snackbar.dismiss();
+                        }
+                    });
+                    snackbar.show();
+                }
                 else {
-                    dbhelper=new Memberhandler(getContext());
-                    dbhelper.insertmember(MemberName, Raspkey);
+                    dbhelper = new Memberhandler(getContext());
+                    dbhelper.insertmember("Member Name:", MemberName, "Raspberry Key:", Raspkey);
                     CardView cv = (CardView) getActivity().findViewById(R.id.cvaddmember);
                     cv.setVisibility(v.INVISIBLE);
-                    dataAdapter.notifyDataSetChanged();
-
-
+                    dbhelper = new Memberhandler(getContext());
+                    Cursor cursor = dbhelper.getmembername();
+                    String[] columns = new String[] {dbhelper.colTextup,dbhelper.colName,dbhelper.colTextdown,dbhelper.colKey};
+                    int[] to = new int[]{R.id.textViewup,R.id.Name,R.id.textdown,R.id.Key};
+                    dataAdapter =new SimpleCursorAdapter(getContext(),R.layout.listview,cursor,columns,to,0);
+                    final ListView listview = (ListView) rootView.findViewById(R.id.listView);
+                    listview.setAdapter(dataAdapter);
+                    RelativeLayout layout = (RelativeLayout) getActivity().findViewById(R.id.rv);
+                    layout.setVisibility(v.INVISIBLE);
+                    fab.setVisibility(v.VISIBLE);
                 }
             }
         }
@@ -166,14 +182,30 @@ public class SharedKeyFragment extends Fragment {
                                                 snackbar.show();
 
                                             }
-                                            else {
-                                                dbneighbour=new Neighbourhandler(getContext());
-                                                dbhelper.insertmember(NeighbourName, Phone);
+                                            else if(NeighbourName.equals("") || Phone.equals("")){
+                                                final Snackbar snackbar = Snackbar.make(rootView, "One or More Fields are Empty", Snackbar.LENGTH_SHORT);
+                                                snackbar.setAction("Dismiss", new View.OnClickListener() {
+                                                    @Override
+                                                    public void onClick(View v) {
+                                                        snackbar.dismiss();
+                                                    }
+                                                });
+                                                snackbar.show();
+                                            } else {
+                                                dbhelper = new Memberhandler(getContext());
+                                                dbhelper.insertmember("Neighbour info:", NeighbourName, "Contact detail :", Phone);
                                                 CardView cv = (CardView) getActivity().findViewById(R.id.cvaddneighbour);
                                                 cv.setVisibility(v.INVISIBLE);
-                                                dataAdapter.notifyDataSetChanged();
-
-
+                                                dbhelper = new Memberhandler(getContext());
+                                                Cursor cursor = dbhelper.getmembername();
+                                                String[] columns = new String[]{dbhelper.colTextup, dbhelper.colName, dbhelper.colTextdown, dbhelper.colKey};
+                                                int[] to = new int[]{R.id.textViewup, R.id.Name, R.id.textdown, R.id.Key};
+                                                dataAdapter = new SimpleCursorAdapter(getContext(), R.layout.listview, cursor, columns, to, 0);
+                                                final ListView listview = (ListView) rootView.findViewById(R.id.listView);
+                                                listview.setAdapter(dataAdapter);
+                                                RelativeLayout layout = (RelativeLayout) getActivity().findViewById(R.id.rv);
+                                                layout.setVisibility(v.INVISIBLE);
+                                                fab.setVisibility(v.VISIBLE);
                                             }
                                         }
                                     }

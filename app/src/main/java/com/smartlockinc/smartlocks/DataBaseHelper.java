@@ -24,7 +24,7 @@ public class DataBaseHelper extends SQLiteOpenHelper
         _db.execSQL(Gcmsessionmanager.DATABASE_CREATE);
         _db.execSQL(photourl.DATABASE_CREATE);
         _db.execSQL(Memberhandler.DATABASE_CREATE);
-        _db.execSQL(Neighbourhandler.DATABASE_CREATE);
+        _db.execSQL(Notificationmessagehandler.DATABASE_CREATE);
 
     }
     // Called when there is a database version mismatch meaning that the version
